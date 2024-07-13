@@ -11,7 +11,7 @@ from app.core.event import eventmanager, Event
 from app.schemas.types import EventType
 
 
-class DoubanRank(_PluginBase):
+class Ugnassync(_PluginBase):
     # 插件名称
     plugin_name = "刷新绿联媒体库"
     # 插件描述
