@@ -119,7 +119,12 @@ class UgnasSync(_PluginBase):
                                         }
                                     }
                                 ]
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        'component': 'VRow',
+                        'content': [
                             {
                                 'component': 'VCol',
                                 'props': {
@@ -131,7 +136,7 @@ class UgnasSync(_PluginBase):
                                         'component': 'VSwitch',
                                         'props': {
                                             'model': 'onlyonce',
-                                            'label': '立即检测一次',
+                                            'label': '立即运行',
                                         }
                                     }
                                 ]
@@ -151,9 +156,8 @@ class UgnasSync(_PluginBase):
                                     {
                                         'component': 'VTextField',
                                         'props': {
-                                            'model': 'ugnasurl',
-                                            'label': '地址',
-                                            'placeholder': 'http://192.158.1.1'
+                                            'model': 'ugnasUrl',
+                                            'label': '服务器'
                                         }
                                     }
                                 ]
@@ -169,15 +173,13 @@ class UgnasSync(_PluginBase):
                                         'component': 'VTextField',
                                         'props': {
                                             'model': 'api_token',
-                                            'label': 'api_token',
-                                            'placeholder': ''
+                                            'label': 'API密钥'
                                         }
                                     }
                                 ]
                             }
                         ]
                     }
-
                 ]
             }
         ], {
