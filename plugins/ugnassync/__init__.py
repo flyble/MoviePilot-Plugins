@@ -1,5 +1,4 @@
 import datetime
-from threading import Event
 from typing import Tuple, List, Dict, Any
 import pytz
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -214,7 +213,7 @@ class UgnasSync(_PluginBase):
     def get_page(self) -> List[dict]:
         pass
    # 转移完成
-    @eventmanager.register(EventType.TransferComplete )
+    @eventmanager.register(EventType.TransferComplete)
     def send(self, event: Event):
         """
         通知绿联开始刷新媒体库
@@ -235,7 +234,7 @@ class UgnasSync(_PluginBase):
         logger.info("通知绿联刷新媒体库")
         params = {}
         try:
-            res = RequestUtils().post(req_url, json=params)
+            res = RequestUtils().post(req_url, params)
             if not res or res.status_code != 200:
                 logger.error("调用绿联刷新媒体库API失败！")
             else:
