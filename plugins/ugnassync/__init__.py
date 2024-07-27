@@ -37,7 +37,7 @@ class UgnasSync(_PluginBase):
     _api_token = ""
     _enabled = False
     _onlyonce = False
-    _ugnasurl = ""
+    _ugnas_url = ""
 
     def init_plugin(self, config: dict = None):
          # 停止现有任务
@@ -47,7 +47,7 @@ class UgnasSync(_PluginBase):
             self._enabled = config.get("enabled")
             self._onlyonce = config.get("onlyonce")
             self._api_token = config.get("api_token")
-            self._token = config.get("ugnasurl")
+            self._ugnas_url = config.get("ugnasUrl")
     
        
 
@@ -56,7 +56,7 @@ class UgnasSync(_PluginBase):
             if self._onlyonce:
                 self._scheduler = BackgroundScheduler(timezone=settings.TZ)
                 logger.info("绿联刷新媒体库服务启动，立即运行一次")
-                self._scheduler.add_job(func=self.__request_csf, trigger='date',
+                self._scheduler.add_job(func=self.__request_reflush, trigger='date',
                                         run_date=datetime.datetime.now(
                                             tz=pytz.timezone(settings.TZ)) + datetime.timedelta(seconds=3)
                                         ,name="刷新绿联媒体库")
@@ -68,7 +68,7 @@ class UgnasSync(_PluginBase):
             "enabled": self._enabled,
             "onlyonce": False,
             "api_token": self._api_token,
-            "ugnasurl": self._token
+            "ugnasUrl": self._ugnas_url
         })
 
             # 启动任务
@@ -206,7 +206,7 @@ class UgnasSync(_PluginBase):
             "enabled": False,
             "onlyonce": False,
             "api_token": "",
-            "ugnasurl": ""
+            "ugnasUrl": ""
         }
 
 
@@ -218,7 +218,7 @@ class UgnasSync(_PluginBase):
         """
         通知绿联开始刷新媒体库
         """
-        if not self._enabled or not self._ugnasurl or not self._api_token:
+        if not self._enabled or not self._ugnas_url or not self._api_token:
             return
         item = event.event_data
         if not item:
@@ -227,7 +227,7 @@ class UgnasSync(_PluginBase):
             # 调用CSF下载字幕
         self.__request_reflush()
 
-    def __request_csf(self):
+    def __request_reflush(self):
          # 请求地址
         req_url = self._host+'?api_token'+self._api_token
         # 一个名称只建一个任务
