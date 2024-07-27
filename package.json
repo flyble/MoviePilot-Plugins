@@ -8,6 +8,7 @@
         "author": "flyble",
         "level": 1,
         "history": {
+            "v1.0.1": "升级",
             "v1.0.0": "init"
         }
     }
