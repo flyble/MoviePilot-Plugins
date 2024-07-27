@@ -229,7 +229,7 @@ class UgnasSync(_PluginBase):
 
     def __request_reflush(self):
          # 请求地址
-        req_url = self._host+'?api_token'+self._api_token
+        req_url = self._ugnas_url+'?api_token'+self._api_token
         # 一个名称只建一个任务
         logger.info("通知绿联刷新媒体库")
         params = {}
