@@ -40,7 +40,7 @@ class UgnasSync(_PluginBase):
     _ugnas_url = ""
 
     def init_plugin(self, config: dict = None):
-         # 停止现有任务
+        # 停止现有任务
         self.stop_service()
 
         if config:
@@ -48,8 +48,6 @@ class UgnasSync(_PluginBase):
             self._onlyonce = config.get("onlyonce")
             self._api_token = config.get("api_token")
             self._ugnas_url = config.get("ugnasUrl")
-    
-       
 
         # 启动服务
         if self._enabled or self._onlyonce:
@@ -59,7 +57,7 @@ class UgnasSync(_PluginBase):
                 self._scheduler.add_job(func=self.__request_reflush, trigger='date',
                                         run_date=datetime.datetime.now(
                                             tz=pytz.timezone(settings.TZ)) + datetime.timedelta(seconds=3)
-                                        ,name="刷新绿联媒体库")
+                                        , name="刷新绿联媒体库")
 
                 # 关闭一次性开关
                 self._onlyonce = False
@@ -71,14 +69,14 @@ class UgnasSync(_PluginBase):
             "ugnasUrl": self._ugnas_url
         })
 
-            # 启动任务
+        # 启动任务
         if self._scheduler.get_jobs():
             self._scheduler.print_jobs()
             self._scheduler.start()
 
     def get_state(self) -> bool:
         return self._enabled
-    
+
     def get_service(self) -> List[Dict[str, Any]]:
         """
         注册插件公共服务
@@ -91,6 +89,7 @@ class UgnasSync(_PluginBase):
         }]
         """
         pass
+
     def get_api(self) -> List[Dict[str, Any]]:
         pass
 
@@ -138,7 +137,47 @@ class UgnasSync(_PluginBase):
                                 ]
                             }
                         ]
+                    },
+                    {
+                        'component': 'VRow',
+                        'content': [
+                            {
+                                'component': 'VCol',
+                                'props': {
+                                    'cols': 12,
+                                    'md': 6
+                                },
+                                'content': [
+                                    {
+                                        'component': 'VTextField',
+                                        'props': {
+                                            'model': 'ugnasurl',
+                                            'label': '地址',
+                                            'placeholder': 'http://192.158.1.1'
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                'component': 'VCol',
+                                'props': {
+                                    'cols': 12,
+                                    'md': 6
+                                },
+                                'content': [
+                                    {
+                                        'component': 'VTextField',
+                                        'props': {
+                                            'model': 'api_token',
+                                            'label': 'api_token',
+                                            'placeholder': ''
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
                     }
+
                 ]
             }
         ], {
@@ -148,10 +187,10 @@ class UgnasSync(_PluginBase):
             "ugnasUrl": ""
         }
 
-
     def get_page(self) -> List[dict]:
         pass
-   # 转移完成
+
+    # 转移完成
     @eventmanager.register(EventType.TransferComplete)
     def send(self, event: Event):
         """
@@ -162,13 +201,13 @@ class UgnasSync(_PluginBase):
         item = event.event_data
         if not item:
             return
-       
+
             # 调用CSF下载字幕
         self.__request_reflush()
 
     def __request_reflush(self):
-         # 请求地址
-        req_url = self._ugnas_url+'?api_token'+self._api_token
+        # 请求地址
+        req_url = self._ugnas_url + '?api_token' + self._api_token
         # 一个名称只建一个任务
         logger.info("通知绿联刷新媒体库")
         params = {}
@@ -181,7 +220,6 @@ class UgnasSync(_PluginBase):
                     logger.info("绿联刷新媒体库刷新：%s" % res.msg)
         except Exception as e:
             logger.error("绿联刷新媒体库出错：%s" + str(e))
-
 
     def stop_service(self):
         """
