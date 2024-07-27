@@ -1,7 +1,7 @@
 {
     "UgansSync": {
-        "name": "刷新绿联媒体库",
-        "description": "刷新绿联媒体库",
+        "name": "刷新绿联媒体库插件",
+        "description": "刷新绿联媒体库插件",
         "labels": "刮削",
         "version": "1.0.0",
         "icon": "movie.jpg",
